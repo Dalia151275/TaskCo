@@ -22,7 +22,7 @@ builder.Services.AddDbContext<TaskCoDbContext>(options =>
 });
 
 // Identity
-builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
+builder.Services.AddIdentity<User, IdentityRole>(options =>
 {
     options.User.RequireUniqueEmail = true;
     options.SignIn.RequireConfirmedEmail = false;

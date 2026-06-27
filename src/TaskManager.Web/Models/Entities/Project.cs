@@ -6,7 +6,7 @@ public class Project
     public required string Name { get; set; }
     public string? Description { get; set; }
     public string OwnerId { get; set; } = null!;
-    public ApplicationUser Owner { get; set; } = null!;
+    public User Owner { get; set; } = null!;
     public DateTimeOffset CreatedAt { get; set; }
     public DateTimeOffset UpdatedAt { get; set; }
     public ICollection<TaskItem> Tasks { get; set; } = [];

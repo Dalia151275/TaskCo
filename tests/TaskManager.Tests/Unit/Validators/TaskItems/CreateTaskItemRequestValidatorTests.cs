@@ -13,7 +13,7 @@ public sealed class CreateTaskItemRequestValidatorTests
     public async Task ValidateAsync_ValidRequest_Passes()
     {
         var result = await _validator.ValidateAsync(
-            new CreateTaskItemRequest("Fix bug", "Details", TaskItemStatus.InProgress, null));
+            new CreateTaskItemRequest("Fix bug", "Details", TaskStatus.InProgress, null));
         Assert.True(result.IsValid);
     }
 
@@ -49,7 +49,7 @@ public sealed class CreateTaskItemRequestValidatorTests
     public async Task ValidateAsync_InvalidStatusValue_Fails()
     {
         var result = await _validator.ValidateAsync(
-            new CreateTaskItemRequest("Title", null, (TaskItemStatus)99));
+            new CreateTaskItemRequest("Title", null, (TaskStatus)99));
         Assert.False(result.IsValid);
         Assert.Contains(result.Errors, e => e.PropertyName == nameof(CreateTaskItemRequest.Status));
     }

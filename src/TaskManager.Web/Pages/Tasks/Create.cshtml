@@ -24,7 +24,7 @@
     </div>
     <div class="form-group">
         <label asp-for="Input.Status">Status</label>
-        <select asp-for="Input.Status" asp-items="Html.GetEnumSelectList<TaskItemStatus>()"></select>
+        <select asp-for="Input.Status" asp-items="Html.GetEnumSelectList<TaskManager.Web.Models.Entities.TaskStatus>()"></select>
     </div>
     <div class="form-group">
         <label asp-for="Input.DueDate">Due Date</label>

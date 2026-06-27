@@ -45,7 +45,7 @@ public sealed class TaskItemServiceTests : IDisposable
     {
         var task = new TaskItem
         {
-            Id = Guid.NewGuid(), Title = title, Status = TaskItemStatus.Todo,
+            Id = Guid.NewGuid(), Title = title, Status = TaskStatus.Todo,
             ProjectId = projectId, OwnerId = ownerId,
             CreatedAt = DateTimeOffset.UtcNow, UpdatedAt = DateTimeOffset.UtcNow
         };
@@ -167,11 +167,11 @@ public sealed class TaskItemServiceTests : IDisposable
         var task = SeedTask(project.Id, "owner-a", "Old");
 
         var result = await _sut.UpdateAsync(project.Id, task.Id,
-            new UpdateTaskItemRequest("New", "Desc", TaskItemStatus.Done));
+            new UpdateTaskItemRequest("New", "Desc", TaskStatus.Done));
 
         Assert.True(result.IsSuccess);
         Assert.Equal("New", result.Value!.Title);
-        Assert.Equal(TaskItemStatus.Done, result.Value!.Status);
+        Assert.Equal(TaskStatus.Done, result.Value!.Status);
     }
 
     [Fact]

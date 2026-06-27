@@ -49,7 +49,7 @@ public class CreateModel : PageModel
         [MaxLength(5000)]
         public string? Description { get; set; }
 
-        public TaskItemStatus Status { get; set; } = TaskItemStatus.Todo;
+        public TaskStatus Status { get; set; } = TaskStatus.Todo;
 
         public DateTimeOffset? DueDate { get; set; }
     }

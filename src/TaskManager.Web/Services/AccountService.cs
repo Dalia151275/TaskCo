@@ -8,12 +8,12 @@ namespace TaskManager.Web.Services;
 
 public sealed class AccountService : IAccountService
 {
-    private readonly UserManager<ApplicationUser> _userManager;
-    private readonly SignInManager<ApplicationUser> _signInManager;
+    private readonly UserManager<User> _userManager;
+    private readonly SignInManager<User> _signInManager;
 
     public AccountService(
-        UserManager<ApplicationUser> userManager,
-        SignInManager<ApplicationUser> signInManager)
+        UserManager<User> userManager,
+        SignInManager<User> signInManager)
     {
         _userManager = userManager;
         _signInManager = signInManager;
@@ -21,7 +21,7 @@ public sealed class AccountService : IAccountService
 
     public async Task<Result<AuthResponse>> RegisterAsync(RegisterRequest request)
     {
-        var user = new ApplicationUser { Email = request.Email, UserName = request.Email };
+        var user = new User { Email = request.Email, UserName = request.Email };
         var identityResult = await _userManager.CreateAsync(user, request.Password);
 
         if (!identityResult.Succeeded)

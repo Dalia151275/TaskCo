@@ -51,7 +51,7 @@ public abstract class IntegrationTestBase : IAsyncLifetime
 
     protected async Task<TaskItem> SeedTaskItemAsync(
         string ownerId, Guid projectId, string title = "Test Task",
-        TaskItemStatus status = TaskItemStatus.Todo)
+        TaskStatus status = TaskStatus.Todo)
     {
         using var scope = Factory.Services.CreateScope();
         var db = scope.ServiceProvider.GetRequiredService<TaskCoDbContext>();
