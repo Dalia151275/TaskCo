@@ -26,15 +26,15 @@ public sealed class TaskItemService : ITaskItemService
         if (!projectExists)
             return new Error(ErrorCodes.NotFound, "Project not found.");
 
+        // SQLite provider cannot translate DateTimeOffset in ORDER BY; sort client-side.
         var tasks = await _db.TaskItems
             .Where(t => t.ProjectId == projectId && t.OwnerId == _currentUser.UserId)
-            .OrderBy(t => t.CreatedAt)
             .Select(t => new TaskItemResponse(
                 t.Id, t.Title, t.Description, t.Status, t.DueDate,
                 t.ProjectId, t.CreatedAt, t.UpdatedAt))
             .ToListAsync();
 
-        return tasks.AsReadOnly();
+        return tasks.OrderBy(t => t.CreatedAt).ToList().AsReadOnly();
     }
 
     public async Task<Result<TaskItemResponse>> GetByIdAsync(Guid projectId, Guid id)
