@@ -36,7 +36,18 @@ else
             {
                 <tr>
                     <td>@task.Title</td>
-                    <td>@task.Status</td>
+                    <td>
+                        @{
+                            var (badgeClass, badgeLabel) = task.Status switch
+                            {
+                                TaskManager.Web.Models.Entities.TaskStatus.Todo       => ("badge-todo",       "Todo"),
+                                TaskManager.Web.Models.Entities.TaskStatus.InProgress => ("badge-inprogress", "In Progress"),
+                                TaskManager.Web.Models.Entities.TaskStatus.Done       => ("badge-done",       "Done"),
+                                _                                                     => ("badge-todo",       task.Status.ToString())
+                            };
+                        }
+                        <span class="badge @badgeClass">@badgeLabel</span>
+                    </td>
                     <td>@task.DueDate?.ToString("yyyy-MM-dd")</td>
                     <td class="actions">
                         <a asp-page="/Tasks/Edit" asp-route-projectId="@Model.ProjectId" asp-route-id="@task.Id" class="btn-secondary">Edit</a>
