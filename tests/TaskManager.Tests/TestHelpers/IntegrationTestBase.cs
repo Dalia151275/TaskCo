@@ -34,7 +34,7 @@ public abstract class IntegrationTestBase : IAsyncLifetime
     protected async Task<Project> SeedProjectAsync(string ownerId, string name = "Test Project")
     {
         using var scope = Factory.Services.CreateScope();
-        var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+        var db = scope.ServiceProvider.GetRequiredService<TaskCoDbContext>();
 
         var project = new Project
         {
@@ -54,7 +54,7 @@ public abstract class IntegrationTestBase : IAsyncLifetime
         TaskItemStatus status = TaskItemStatus.Todo)
     {
         using var scope = Factory.Services.CreateScope();
-        var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
+        var db = scope.ServiceProvider.GetRequiredService<TaskCoDbContext>();
 
         var task = new TaskItem
         {

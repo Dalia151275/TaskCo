@@ -10,7 +10,7 @@ using TaskManager.Web.Data;
 
 namespace TaskManager.Web.Data.Migrations
 {
-    [DbContext(typeof(AppDbContext))]
+    [DbContext(typeof(TaskCoDbContext))]
     [Migration("20260627170439_InitialCreate")]
     partial class InitialCreate
     {

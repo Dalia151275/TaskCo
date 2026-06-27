@@ -4,10 +4,11 @@ using TaskManager.Web.Models.Entities;
 
 namespace TaskManager.Web.Data;
 
-public class AppDbContext : IdentityDbContext<ApplicationUser>
+public class TaskCoDbContext : IdentityDbContext<ApplicationUser>
 {
-    public AppDbContext(DbContextOptions<AppDbContext> options) : base(options) { }
+    public TaskCoDbContext(DbContextOptions<TaskCoDbContext> options) : base(options) { }
 
+    public new DbSet<ApplicationUser> Users => Set<ApplicationUser>();
     public DbSet<Project> Projects => Set<Project>();
     public DbSet<TaskItem> TaskItems => Set<TaskItem>();
 

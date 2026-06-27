@@ -9,10 +9,10 @@ namespace TaskManager.Web.Services;
 
 public sealed class TaskItemService : ITaskItemService
 {
-    private readonly AppDbContext _db;
+    private readonly TaskCoDbContext _db;
     private readonly ICurrentUser _currentUser;
 
-    public TaskItemService(AppDbContext db, ICurrentUser currentUser)
+    public TaskItemService(TaskCoDbContext db, ICurrentUser currentUser)
     {
         _db = db;
         _currentUser = currentUser;

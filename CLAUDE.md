@@ -20,7 +20,7 @@ E:\TaskCo\
 
 - **Layered, not feature-organised**: `Controllers/`, `Pages/`, `Services/`, `Models/`, `Validators/`, `Common/`
 - **No business logic in Controllers or Pages** — they call `Services/` only
-- **Services** hold all business logic and own all DB access via `AppDbContext`
+- **Services** hold all business logic and own all DB access via `TaskCoDbContext`
 - **Ownership**: every service query filters `.Where(x => x.OwnerId == _currentUser.UserId)`; cross-owner access returns `NotFound` error (never `Forbidden`)
 - **OwnerId is never read from the client** — always taken from `ICurrentUser`
 - When creating a `TaskItem`, load its parent `Project` filtered by owner, then copy `Project.OwnerId` onto the task
@@ -56,7 +56,7 @@ Status codes: `200` read/update · `201` create · `400` validation · `401` una
 | `src/TaskManager.Web/Common/Results/Error.cs` | `Error` record + `ErrorCodes` constants |
 | `src/TaskManager.Web/Common/Api/ApiControllerBase.cs` | `OkEnvelope`, `CreatedEnvelope`, `FromResult`, `MapError` helpers |
 | `src/TaskManager.Web/Services/Abstractions/ICurrentUser.cs` | `UserId`, `IsAuthenticated` |
-| `src/TaskManager.Web/Data/AppDbContext.cs` | EF Core context + model config |
+| `src/TaskManager.Web/Data/TaskCoDbContext.cs` | EF Core context + model config |
 
 ## Running the app
 

@@ -9,8 +9,8 @@ using TaskManager.Web.Data;
 
 namespace TaskManager.Web.Data.Migrations
 {
-    [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [DbContext(typeof(TaskCoDbContext))]
+    partial class TaskCoDbContextModelSnapshot : ModelSnapshot
     {
         protected override void BuildModel(ModelBuilder modelBuilder)
         {

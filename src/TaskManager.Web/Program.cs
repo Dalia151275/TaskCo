@@ -13,7 +13,7 @@ var builder = WebApplication.CreateBuilder(args);
 // Database — InMemory when running under the test host, SQLite otherwise.
 // The name is captured once here so every scope within the same host shares one DB.
 var testDbName = "TaskManagerTestDb_" + Guid.NewGuid();
-builder.Services.AddDbContext<AppDbContext>(options =>
+builder.Services.AddDbContext<TaskCoDbContext>(options =>
 {
     if (builder.Environment.IsEnvironment("Test"))
         options.UseInMemoryDatabase(testDbName);
@@ -32,7 +32,7 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole>(options =>
     options.Password.RequireNonAlphanumeric = false;
     options.Password.RequiredLength = 8;
 })
-.AddEntityFrameworkStores<AppDbContext>();
+.AddEntityFrameworkStores<TaskCoDbContext>();
 
 // Auth cookie — API paths return 401/403; page paths redirect
 builder.Services.ConfigureApplicationCookie(options =>

@@ -11,16 +11,16 @@ namespace TaskManager.Tests.Unit.Services;
 
 public sealed class TaskItemServiceTests : IDisposable
 {
-    private readonly AppDbContext _db;
+    private readonly TaskCoDbContext _db;
     private readonly FakeCurrentUser _currentUser;
     private readonly TaskItemService _sut;
 
     public TaskItemServiceTests()
     {
-        var options = new DbContextOptionsBuilder<AppDbContext>()
+        var options = new DbContextOptionsBuilder<TaskCoDbContext>()
             .UseInMemoryDatabase(Guid.NewGuid().ToString())
             .Options;
-        _db = new AppDbContext(options);
+        _db = new TaskCoDbContext(options);
         _currentUser = new FakeCurrentUser { UserId = "owner-a" };
         _sut = new TaskItemService(_db, _currentUser);
     }

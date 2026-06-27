@@ -9,10 +9,10 @@ namespace TaskManager.Web.Services;
 
 public sealed class ProjectService : IProjectService
 {
-    private readonly AppDbContext _db;
+    private readonly TaskCoDbContext _db;
     private readonly ICurrentUser _currentUser;
 
-    public ProjectService(AppDbContext db, ICurrentUser currentUser)
+    public ProjectService(TaskCoDbContext db, ICurrentUser currentUser)
     {
         _db = db;
         _currentUser = currentUser;
