@@ -1,0 +1,49 @@
+@page
+@model IndexModel
+@{
+    ViewData["Title"] = Model.Project?.Name ?? "Tasks";
+}
+
+<div class="page-header">
+    <div>
+        <a asp-page="/Projects/Index">&larr; Projects</a>
+        <h1>@Model.Project?.Name</h1>
+        @if (Model.Project?.Description is not null)
+        {
+            <p>@Model.Project.Description</p>
+        }
+    </div>
+    <a asp-page="/Tasks/Create" asp-route-projectId="@Model.ProjectId" class="btn">New Task</a>
+</div>
+
+@if (!Model.Tasks.Any())
+{
+    <p>No tasks yet. <a asp-page="/Tasks/Create" asp-route-projectId="@Model.ProjectId">Create your first task.</a></p>
+}
+else
+{
+    <table>
+        <thead>
+            <tr>
+                <th>Title</th>
+                <th>Status</th>
+                <th>Due</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var task in Model.Tasks)
+            {
+                <tr>
+                    <td>@task.Title</td>
+                    <td>@task.Status</td>
+                    <td>@task.DueDate?.ToString("yyyy-MM-dd")</td>
+                    <td class="actions">
+                        <a asp-page="/Tasks/Edit" asp-route-projectId="@Model.ProjectId" asp-route-id="@task.Id" class="btn-secondary">Edit</a>
+                        <a asp-page="/Tasks/Delete" asp-route-projectId="@Model.ProjectId" asp-route-id="@task.Id" class="btn btn-danger">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

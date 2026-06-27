@@ -1,0 +1,30 @@
+@page
+@model LoginModel
+@{
+    ViewData["Title"] = "Login";
+}
+
+<h1>Login</h1>
+
+@if (Model.ErrorMessage is not null)
+{
+    <div class="alert alert-error">@Model.ErrorMessage</div>
+}
+
+<form method="post" style="max-width:400px">
+    <div class="form-group">
+        <label asp-for="Input.Email">Email</label>
+        <input asp-for="Input.Email" type="email" autocomplete="email" />
+        <span asp-validation-for="Input.Email" class="error"></span>
+    </div>
+    <div class="form-group">
+        <label asp-for="Input.Password">Password</label>
+        <input asp-for="Input.Password" type="password" autocomplete="current-password" />
+        <span asp-validation-for="Input.Password" class="error"></span>
+    </div>
+    <input type="hidden" asp-for="ReturnUrl" />
+    <div class="actions">
+        <button type="submit" class="btn">Login</button>
+        <a asp-page="/Account/Register">Create account</a>
+    </div>
+</form>

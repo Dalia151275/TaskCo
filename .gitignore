@@ -1,0 +1,25 @@
+## .NET
+bin/
+obj/
+*.user
+*.suo
+.vs/
+
+## EF Core migrations SQLite dev db
+*.db
+*.db-shm
+*.db-wal
+
+## Build output
+[Pp]ublish/
+[Rr]elease/
+[Dd]ebug/
+
+## NuGet
+.nuget/
+packages/
+*.nupkg
+
+## OS
+.DS_Store
+Thumbs.db

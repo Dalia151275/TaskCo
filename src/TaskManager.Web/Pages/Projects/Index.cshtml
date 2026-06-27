@@ -1,0 +1,42 @@
+@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Projects";
+}
+
+<div class="page-header">
+    <h1>Projects</h1>
+    <a asp-page="/Projects/Create" class="btn">New Project</a>
+</div>
+
+@if (!Model.Projects.Any())
+{
+    <p>No projects yet. <a asp-page="/Projects/Create">Create your first project.</a></p>
+}
+else
+{
+    <table>
+        <thead>
+            <tr>
+                <th>Name</th>
+                <th>Description</th>
+                <th>Created</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var project in Model.Projects)
+            {
+                <tr>
+                    <td><a asp-page="/Tasks/Index" asp-route-projectId="@project.Id">@project.Name</a></td>
+                    <td>@project.Description</td>
+                    <td>@project.CreatedAt.ToString("yyyy-MM-dd")</td>
+                    <td class="actions">
+                        <a asp-page="/Projects/Edit" asp-route-id="@project.Id" class="btn-secondary">Edit</a>
+                        <a asp-page="/Projects/Delete" asp-route-id="@project.Id" class="btn-danger btn">Delete</a>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}

@@ -1,0 +1,18 @@
+@page
+@model DeleteModel
+@{
+    ViewData["Title"] = "Delete Task";
+}
+
+<h1>Delete Task</h1>
+
+@if (Model.Task is not null)
+{
+    <p>Are you sure you want to delete <strong>@Model.Task.Title</strong>?</p>
+    <form method="post" asp-route-projectId="@Model.ProjectId" asp-route-id="@Model.Id">
+        <div class="actions">
+            <button type="submit" class="btn btn-danger">Delete</button>
+            <a asp-page="/Tasks/Index" asp-route-projectId="@Model.ProjectId" class="btn-secondary">Cancel</a>
+        </div>
+    </form>
+}
