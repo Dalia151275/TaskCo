@@ -38,6 +38,7 @@ public class EditModel : PageModel
             Title = task.Title,
             Description = task.Description,
             Status = task.Status,
+            Priority = task.Priority,
             DueDate = task.DueDate
         };
         return Page();
@@ -48,7 +49,7 @@ public class EditModel : PageModel
         if (!ModelState.IsValid) return Page();
 
         var result = await _tasks.UpdateAsync(ProjectId, Id,
-            new UpdateTaskItemRequest(Input.Title!, Input.Description, Input.Status, Input.DueDate));
+            new UpdateTaskItemRequest(Input.Title!, Input.Description, Input.Status, Input.Priority, Input.DueDate));
 
         if (!result.IsSuccess)
         {
@@ -68,6 +69,8 @@ public class EditModel : PageModel
         public string? Description { get; set; }
 
         public TaskStatus Status { get; set; } = TaskStatus.Todo;
+
+        public Priority Priority { get; set; } = Priority.Low;
 
         public DateTimeOffset? DueDate { get; set; }
     }

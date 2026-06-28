@@ -30,7 +30,7 @@ public sealed class TaskItemService : ITaskItemService
         var tasks = await _db.TaskItems
             .Where(t => t.ProjectId == projectId && t.OwnerId == _currentUser.UserId)
             .Select(t => new TaskItemResponse(
-                t.Id, t.Title, t.Description, t.Status, t.DueDate,
+                t.Id, t.Title, t.Description, t.Status, t.Priority, t.DueDate,
                 t.ProjectId, t.CreatedAt, t.UpdatedAt))
             .ToListAsync();
 
@@ -61,6 +61,7 @@ public sealed class TaskItemService : ITaskItemService
             Title = request.Title,
             Description = request.Description,
             Status = request.Status,
+            Priority = request.Priority,
             DueDate = request.DueDate,
             ProjectId = projectId,
             OwnerId = project.OwnerId,
@@ -83,6 +84,7 @@ public sealed class TaskItemService : ITaskItemService
         task.Title = request.Title;
         task.Description = request.Description;
         task.Status = request.Status;
+        task.Priority = request.Priority;
         task.DueDate = request.DueDate;
         task.UpdatedAt = DateTimeOffset.UtcNow;
 
@@ -108,6 +110,6 @@ public sealed class TaskItemService : ITaskItemService
             t => t.Id == id && t.ProjectId == projectId && t.OwnerId == _currentUser.UserId);
 
     private static TaskItemResponse ToResponse(TaskItem t) =>
-        new(t.Id, t.Title, t.Description, t.Status, t.DueDate,
+        new(t.Id, t.Title, t.Description, t.Status, t.Priority, t.DueDate,
             t.ProjectId, t.CreatedAt, t.UpdatedAt);
 }

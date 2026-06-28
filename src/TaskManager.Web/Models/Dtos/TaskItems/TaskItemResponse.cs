@@ -5,6 +5,7 @@ public sealed record TaskItemResponse(
     string Title,
     string? Description,
     TaskStatus Status,
+    Priority Priority,
     DateTimeOffset? DueDate,
     Guid ProjectId,
     DateTimeOffset CreatedAt,

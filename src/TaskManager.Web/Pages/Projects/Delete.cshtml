@@ -1,18 +1,33 @@
-@page
-@model DeleteModel
+@page "{id:guid}"
+@model DeleteProjectModel
 @{
     ViewData["Title"] = "Delete Project";
 }
 
-<h1>Delete Project</h1>
+<div class="row justify-content-center">
+    <div class="col-12 col-md-8 col-lg-6">
+        <div class="card shadow-sm">
+            <div class="card-body p-4">
+                <h1 class="card-title h3 mb-4">Delete Project</h1>
 
-@if (Model.Project is not null)
-{
-    <p>Are you sure you want to delete <strong>@Model.Project.Name</strong>? All tasks in this project will also be deleted.</p>
-    <form method="post" asp-route-id="@Model.Id">
-        <div class="actions">
-            <button type="submit" class="btn btn-danger">Delete</button>
-            <a asp-page="/Projects/Index" class="btn-secondary">Cancel</a>
+                @if (Model.Project is not null)
+                {
+                    <div class="alert alert-danger">
+                        <strong>This action is irreversible.</strong>
+                        All tasks in <strong>@Model.Project.Name</strong> will also be permanently deleted.
+                    </div>
+
+                    <p>Are you sure you want to delete <strong>@Model.Project.Name</strong>?</p>
+
+                    <form method="post">
+                        <div class="d-flex gap-2">
+                            <button type="submit" class="btn btn-danger">Delete</button>
+                            @* Assumption: /Projects/Details/{id} not yet implemented; cancelling to Dashboard. *@
+                            <a asp-page="/Dashboard" class="btn btn-outline-secondary">Cancel</a>
+                        </div>
+                    </form>
+                }
+            </div>
         </div>
-    </form>
-}
+    </div>
+</div>

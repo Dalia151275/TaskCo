@@ -34,9 +34,14 @@ builder.Services.AddIdentity<User, IdentityRole>(options =>
 })
 .AddEntityFrameworkStores<TaskCoDbContext>();
 
-// Auth cookie — API paths return 401/403; page paths redirect
+// Auth cookie — API paths return 401/403; page paths redirect.
+// LoginPath matches the Razor Page at Pages/Account/Login.cshtml.
+// NOTE: AddAuthentication("Cookies").AddCookie(...) cannot be used here because
+// AddIdentity() already registers the "Identity.Application" scheme; ConfigureApplicationCookie
+// is the correct way to customise it in an Identity-based app.
 builder.Services.ConfigureApplicationCookie(options =>
 {
+    options.LoginPath = "/Account/Login";
     options.Cookie.HttpOnly = true;
     options.Cookie.SameSite = SameSiteMode.Strict;
     options.ExpireTimeSpan = TimeSpan.FromDays(14);
@@ -81,7 +86,9 @@ builder.Services.AddControllers()
 builder.Services.Configure<Microsoft.AspNetCore.Mvc.ApiBehaviorOptions>(
     opts => opts.SuppressModelStateInvalidFilter = true);
 
-builder.Services.AddRazorPages();
+var razorBuilder = builder.Services.AddRazorPages();
+if (builder.Environment.IsDevelopment())
+    razorBuilder.AddRazorRuntimeCompilation();
 
 var app = builder.Build();
 
@@ -94,8 +101,8 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.MapControllers();
 app.MapRazorPages();
+app.MapControllers();
 
 app.Run();
 

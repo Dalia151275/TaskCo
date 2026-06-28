@@ -30,7 +30,7 @@ public class CreateModel : PageModel
         if (!ModelState.IsValid) return Page();
 
         var result = await _tasks.CreateAsync(ProjectId,
-            new CreateTaskItemRequest(Input.Title!, Input.Description, Input.Status, Input.DueDate));
+            new CreateTaskItemRequest(Input.Title!, Input.Description, Input.Status, Input.Priority, Input.DueDate));
 
         if (!result.IsSuccess)
         {
@@ -50,6 +50,8 @@ public class CreateModel : PageModel
         public string? Description { get; set; }
 
         public TaskStatus Status { get; set; } = TaskStatus.Todo;
+
+        public Priority Priority { get; set; } = Priority.Low;
 
         public DateTimeOffset? DueDate { get; set; }
     }

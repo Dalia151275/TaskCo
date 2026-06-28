@@ -1,0 +1,87 @@
+@page
+@model DashboardModel
+@{
+    ViewData["Title"] = "Dashboard";
+}
+
+<h1 class="mb-4">Dashboard</h1>
+
+@* Stat cards — 2-per-row on mobile, 4-per-row on md+ *@
+<div class="row g-3 mb-5">
+    <div class="col-6 col-md-3">
+        <div class="card text-center h-100">
+            <div class="card-body">
+                <div class="display-6 fw-bold">@Model.TotalTasks</div>
+                <div class="text-muted small mt-1">Total Tasks</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-6 col-md-3">
+        <div class="card text-center h-100">
+            <div class="card-body">
+                <div class="display-6 fw-bold">@Model.InProgressTasks</div>
+                <div class="text-muted small mt-1">In Progress</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-6 col-md-3">
+        <div class="card text-center h-100">
+            <div class="card-body">
+                <div class="display-6 fw-bold">@Model.CompletedTasks</div>
+                <div class="text-muted small mt-1">Completed</div>
+            </div>
+        </div>
+    </div>
+    <div class="col-6 col-md-3">
+        <div class="card text-center h-100">
+            <div class="card-body">
+                <div class="display-6 fw-bold text-danger">@Model.OverdueTasks</div>
+                <div class="text-muted small mt-1">Overdue</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="d-flex justify-content-between align-items-center mb-3">
+    <h2 class="mb-0">Projects</h2>
+    <a asp-page="/Projects/Create" class="btn btn-primary">New Project</a>
+</div>
+
+@if (!Model.Projects.Any())
+{
+    <div class="text-center py-5">
+        <p class="text-muted mb-3">You don't have any projects yet.</p>
+        <a asp-page="/Projects/Create" class="btn btn-primary btn-lg">Create your first project</a>
+    </div>
+}
+else
+{
+    <div class="row g-3">
+        @foreach (var summary in Model.Projects)
+        {
+            var overdueBadgeClass = summary.OverdueCount > 0 ? "bg-danger" : "bg-secondary";
+            @* Assumption: /Projects/Details/{id} not yet implemented;
+               linking to /Tasks/Index per the existing routing pattern. *@
+            <div class="col-12 col-md-6 col-lg-4">
+                <div class="card h-100">
+                    <div class="card-body">
+                        <h5 class="card-title">
+                            <a asp-page="/Tasks/Index" asp-route-projectId="@summary.Project.Id"
+                               class="text-decoration-none">@summary.Project.Name</a>
+                        </h5>
+                        <p class="text-muted small mb-3">
+                            @summary.TaskCount task@(summary.TaskCount == 1 ? "" : "s")
+                        </p>
+                        <div class="progress mb-2" style="height: 8px;">
+                            <div class="progress-bar" style="width: @(summary.ProgressPercent)%"></div>
+                        </div>
+                        <div class="d-flex justify-content-between align-items-center mt-2">
+                            <span class="small text-muted">@summary.ProgressPercent% complete</span>
+                            <span class="badge @overdueBadgeClass">@summary.OverdueCount overdue</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        }
+    </div>
+}

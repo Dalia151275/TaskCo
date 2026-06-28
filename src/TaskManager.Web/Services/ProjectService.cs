@@ -23,7 +23,7 @@ public sealed class ProjectService : IProjectService
         var list = await _db.Projects
             .Where(p => p.OwnerId == _currentUser.UserId)
             .OrderBy(p => p.Name)
-            .Select(p => new ProjectResponse(p.Id, p.Name, p.Description, p.CreatedAt, p.UpdatedAt))
+            .Select(p => new ProjectResponse(p.Id, p.Name, p.Description, p.DueDate, p.CreatedAt, p.UpdatedAt))
             .ToListAsync();
 
         return list.AsReadOnly();
@@ -45,6 +45,7 @@ public sealed class ProjectService : IProjectService
             Id = Guid.NewGuid(),
             Name = request.Name,
             Description = request.Description,
+            DueDate = request.DueDate,
             OwnerId = _currentUser.UserId,
             CreatedAt = DateTimeOffset.UtcNow,
             UpdatedAt = DateTimeOffset.UtcNow
@@ -64,6 +65,7 @@ public sealed class ProjectService : IProjectService
 
         project.Name = request.Name;
         project.Description = request.Description;
+        project.DueDate = request.DueDate;
         project.UpdatedAt = DateTimeOffset.UtcNow;
 
         await _db.SaveChangesAsync();
@@ -87,5 +89,5 @@ public sealed class ProjectService : IProjectService
         _db.Projects.FirstOrDefaultAsync(p => p.Id == id && p.OwnerId == _currentUser.UserId);
 
     private static ProjectResponse ToResponse(Project p) =>
-        new(p.Id, p.Name, p.Description, p.CreatedAt, p.UpdatedAt);
+        new(p.Id, p.Name, p.Description, p.DueDate, p.CreatedAt, p.UpdatedAt);
 }

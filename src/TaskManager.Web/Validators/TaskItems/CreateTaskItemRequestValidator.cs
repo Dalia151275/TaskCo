@@ -10,5 +10,6 @@ public sealed class CreateTaskItemRequestValidator : AbstractValidator<CreateTas
         RuleFor(x => x.Title).NotEmpty().MaximumLength(500);
         RuleFor(x => x.Description).MaximumLength(5000).When(x => x.Description is not null);
         RuleFor(x => x.Status).IsInEnum();
+        RuleFor(x => x.Priority).IsInEnum();
     }
 }

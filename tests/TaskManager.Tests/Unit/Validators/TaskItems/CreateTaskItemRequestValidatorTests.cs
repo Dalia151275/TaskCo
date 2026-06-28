@@ -13,7 +13,7 @@ public sealed class CreateTaskItemRequestValidatorTests
     public async Task ValidateAsync_ValidRequest_Passes()
     {
         var result = await _validator.ValidateAsync(
-            new CreateTaskItemRequest("Fix bug", "Details", TaskStatus.InProgress, null));
+            new CreateTaskItemRequest("Fix bug", "Details", TaskStatus.InProgress, Priority.Low, null));
         Assert.True(result.IsValid);
     }
 

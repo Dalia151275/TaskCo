@@ -8,7 +8,7 @@ public class IndexModel : PageModel
     public IActionResult OnGet()
     {
         if (User.Identity?.IsAuthenticated ?? false)
-            return RedirectToPage("/Projects/Index");
+            return RedirectToPage("/Dashboard");
         return RedirectToPage("/Account/Login");
     }
 }

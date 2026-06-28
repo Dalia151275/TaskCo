@@ -4,29 +4,30 @@
     ViewData["Title"] = Model.Project?.Name ?? "Tasks";
 }
 
-<div class="page-header">
+<div class="d-flex justify-content-between align-items-center mb-4">
     <div>
-        <a asp-page="/Projects/Index">&larr; Projects</a>
-        <h1>@Model.Project?.Name</h1>
+        <a asp-page="/Projects/Index" class="text-decoration-none text-muted small">&larr; Projects</a>
+        <h1 class="mb-0">@Model.Project?.Name</h1>
         @if (Model.Project?.Description is not null)
         {
-            <p>@Model.Project.Description</p>
+            <p class="text-muted mt-1 mb-0">@Model.Project.Description</p>
         }
     </div>
-    <a asp-page="/Tasks/Create" asp-route-projectId="@Model.ProjectId" class="btn">New Task</a>
+    <a asp-page="/Tasks/Create" asp-route-projectId="@Model.ProjectId" class="btn btn-primary">New Task</a>
 </div>
 
 @if (!Model.Tasks.Any())
 {
-    <p>No tasks yet. <a asp-page="/Tasks/Create" asp-route-projectId="@Model.ProjectId">Create your first task.</a></p>
+    <p class="text-muted">No tasks yet. <a asp-page="/Tasks/Create" asp-route-projectId="@Model.ProjectId">Create your first task.</a></p>
 }
 else
 {
-    <table>
-        <thead>
+    <table class="table table-striped align-middle">
+        <thead class="table-dark">
             <tr>
                 <th>Title</th>
                 <th>Status</th>
+                <th>Priority</th>
                 <th>Due</th>
                 <th>Actions</th>
             </tr>
@@ -40,18 +41,19 @@ else
                         @{
                             var (badgeClass, badgeLabel) = task.Status switch
                             {
-                                TaskManager.Web.Models.Entities.TaskStatus.Todo       => ("badge-todo",       "Todo"),
-                                TaskManager.Web.Models.Entities.TaskStatus.InProgress => ("badge-inprogress", "In Progress"),
-                                TaskManager.Web.Models.Entities.TaskStatus.Done       => ("badge-done",       "Done"),
-                                _                                                     => ("badge-todo",       task.Status.ToString())
+                                TaskManager.Web.Models.Entities.TaskStatus.Todo       => ("bg-secondary",        "Todo"),
+                                TaskManager.Web.Models.Entities.TaskStatus.InProgress => ("bg-primary",          "In Progress"),
+                                TaskManager.Web.Models.Entities.TaskStatus.Done       => ("bg-success",          "Done"),
+                                _                                                      => ("bg-secondary",        task.Status.ToString())
                             };
                         }
                         <span class="badge @badgeClass">@badgeLabel</span>
                     </td>
-                    <td>@task.DueDate?.ToString("yyyy-MM-dd")</td>
-                    <td class="actions">
-                        <a asp-page="/Tasks/Edit" asp-route-projectId="@Model.ProjectId" asp-route-id="@task.Id" class="btn-secondary">Edit</a>
-                        <a asp-page="/Tasks/Delete" asp-route-projectId="@Model.ProjectId" asp-route-id="@task.Id" class="btn btn-danger">Delete</a>
+                    <td>@task.Priority</td>
+                    <td>@task.DueDate?.ToString("dd-MM-yyyy")</td>
+                    <td>
+                        <a asp-page="/Tasks/Edit" asp-route-projectId="@Model.ProjectId" asp-route-id="@task.Id" class="btn btn-sm btn-outline-secondary">Edit</a>
+                        <a asp-page="/Tasks/Delete" asp-route-projectId="@Model.ProjectId" asp-route-id="@task.Id" class="btn btn-sm btn-danger ms-1">Delete</a>
                     </td>
                 </tr>
             }
