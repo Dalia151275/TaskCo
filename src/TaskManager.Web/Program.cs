@@ -18,7 +18,7 @@ builder.Services.AddDbContext<TaskCoDbContext>(options =>
     if (builder.Environment.IsEnvironment("Test"))
         options.UseInMemoryDatabase(testDbName);
     else
-        options.UseSqlite(builder.Configuration.GetConnectionString("DefaultConnection")!);
+        options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")!);
 });
 
 // Identity
