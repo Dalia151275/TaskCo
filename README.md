@@ -14,7 +14,7 @@ A task management web app built with ASP.NET Core 9, Razor Pages, and Bootstrap 
 | Layer | Technology |
 |---|---|
 | Framework | ASP.NET Core 9 (Razor Pages + Web API) |
-| ORM | EF Core 9 with SQLite (dev) / InMemory (tests) |
+| ORM | EF Core 9 with SQL Server Express (dev) / InMemory (tests) |
 | Auth | ASP.NET Core Identity |
 | Validation | FluentValidation 11 |
 | UI | Bootstrap 5.3 (CDN) |
@@ -25,6 +25,7 @@ A task management web app built with ASP.NET Core 9, Razor Pages, and Bootstrap 
 ### Prerequisites
 
 - [.NET 9 SDK](https://dotnet.microsoft.com/download)
+- SQL Server Express — instance `.\SQLEXPRESS`, database `TaskCoDB` must exist
 
 ### Run
 
@@ -33,9 +34,13 @@ A task management web app built with ASP.NET Core 9, Razor Pages, and Bootstrap 
 cd src\TaskManager.Web
 dotnet ef database update
 
-# Start the app
-dotnet run
-# → http://localhost:5196
+# Build and start the app
+dotnet build -c Release
+dotnet bin\Release\net9.0\TaskManager.Web.dll
+# → http://localhost:5000
+
+# Optional: run on a different port
+dotnet bin\Release\net9.0\TaskManager.Web.dll --urls http://localhost:5196
 ```
 
 ### Run tests
