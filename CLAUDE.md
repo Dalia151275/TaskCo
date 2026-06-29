@@ -11,7 +11,7 @@ E:\TaskCo\
 
 ## Stack
 
-- **.NET 9**, EF Core 9, SQLite (dev), EF Core InMemory (tests only)
+- **.NET 9**, EF Core 9, SQL Server Express (dev), EF Core InMemory (tests only)
 - **ASP.NET Core Identity** — cookie auth, email confirmation OFF
 - **FluentValidation 11** — validators registered via `AddValidatorsFromAssemblyContaining<Program>()`
 - **xUnit** + `Microsoft.AspNetCore.Mvc.Testing`
@@ -65,9 +65,14 @@ Status codes: `200` read/update · `201` create · `400` validation · `401` una
 cd src\TaskManager.Web
 dotnet ef database update
 
-# Run
-dotnet run
-# → http://localhost:5196
+# Run (AppControl blocks freshly-built .exe — launch via DLL instead)
+cd src\TaskManager.Web
+dotnet build -c Release
+dotnet bin\Release\net9.0\TaskManager.Web.dll
+# → http://localhost:5000
+
+# Optional: override port
+dotnet bin\Release\net9.0\TaskManager.Web.dll --urls http://localhost:5196
 ```
 
 ## Running tests
@@ -85,12 +90,9 @@ dotnet test tests\TaskManager.Tests -c Release --output <any-output-path>
 - **`IntegrationTestBase`** — `IAsyncLifetime`; fresh factory + client per test instance; `SeedProjectAsync` / `SeedTaskItemAsync` helpers; `ParseData` / `ParseError` assert envelope shape
 - **`OwnershipIsolationTests`** — proves cross-owner access always returns 404, never 403 or 200
 
-## Known SQLite constraints
-
-- `DateTimeOffset` columns cannot be used in EF Core `OrderBy` clauses with the SQLite provider — sort client-side after `ToListAsync()` instead
-
 ## Database
 
-- Dev DB: `src/TaskManager.Web/taskmanager.db`
-- Browse with **DB Browser for SQLite** (sqlitebrowser.org) — open the `.db` file, use the Browse Data tab
-- Connection string in `appsettings.json`: `"Data Source=taskmanager.db"`
+- Dev DB: SQL Server Express — instance `.\SQLEXPRESS`, database `TaskCoDB`
+- Browse with **SSMS** or **Azure Data Studio**
+- Connection string in `appsettings.json`: `Server=.\SQLEXPRESS;Database=TaskCoDB;Trusted_Connection=True;TrustServerCertificate=True`
+- Tests use EF Core InMemory — no SQL Server required to run the test suite
