@@ -22,7 +22,7 @@ public class RegisterModel : PageModel
     public IActionResult OnGet()
     {
         if (User.Identity?.IsAuthenticated ?? false)
-            return RedirectToPage("/Projects/Index");
+            return RedirectToPage("/Dashboard");
         return Page();
     }
 
@@ -44,7 +44,7 @@ public class RegisterModel : PageModel
             return Page();
         }
 
-        return RedirectToPage("/Projects/Index");
+        return RedirectToPage("/Account/Login");
     }
 
     public sealed class InputModel

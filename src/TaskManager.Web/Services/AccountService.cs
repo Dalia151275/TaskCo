@@ -30,7 +30,6 @@ public sealed class AccountService : IAccountService
             return new Error(ErrorCodes.Conflict, "Registration failed.", details);
         }
 
-        await _signInManager.SignInAsync(user, isPersistent: false);
         return new AuthResponse(user.Id, user.Email!);
     }
 
